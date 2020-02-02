@@ -1,13 +1,13 @@
-package ru.sportbetsbuttle;
+package ru.sportbetsbattle;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SportBetsButtleApplication {
+public class SportBetsBattleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SportBetsButtleApplication.class, args);
+		SpringApplication.run(SportBetsBattleApplication.class, args);
 	}
 
 }

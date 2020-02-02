@@ -1,24 +1,32 @@
-package ru.sportbetsbuttle.games;
+package ru.sportbetsbattle.games;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import ru.sportbetsbattle.core.BaseEntity;
+import ru.sportbetsbattle.values.Values;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-public class Games {
+public class Games extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private final Long id;
+    @NotNull
+    @Size(min = 2, max = 15)
     private String nameOfTheGame;
+    @NotNull
     private String league;
+    @NotNull
     private String teamFirst;
+    @NotNull
     private String teamSecond;
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Values> values;
 
     @CreatedDate
     private Date CreatedAt;
@@ -27,7 +35,8 @@ public class Games {
     private Date LastUpdated;
 
     protected Games() {
-        id = null;
+       super();
+       values = new ArrayList<>();
     }
 
     public Games(String nameOfTheGame, String league, String teamFirst, String teamSecond) {
@@ -36,7 +45,15 @@ public class Games {
         this.league = league;
         this.teamFirst = teamFirst;
         this.teamSecond = teamSecond;
+    }
 
+    public List<Values> getValues() {
+        return values;
+    }
+
+    private void addValue(Values value) {
+        value.setGame(this);
+        values.add(value);
     }
 
     public String getNameOfTheGame() {
@@ -71,7 +88,9 @@ public class Games {
         this.teamSecond = teamSecond;
     }
 
-
+    public void setValues(List<Values> values) {
+        this.values = values;
+    }
 
     public Date getCreatedAt() {
         return CreatedAt;

@@ -1,20 +1,17 @@
-package ru.sportbetsbuttle.values;
+package ru.sportbetsbattle.values;
 
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import ru.sportbetsbattle.core.BaseEntity;
+import ru.sportbetsbattle.games.Games;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Values {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private final Long id;
+public class Values  extends BaseEntity {
+
     private double winnerFirst;
     private double draw;
     private double winnerSecond;
@@ -24,15 +21,20 @@ public class Values {
     private double totalMore;
     private double total;
     private double totalLess;
+    private String betsName;
+
+    @ManyToOne
+    private Games game;
 
     protected Values() {
-        id = null;
+        super();
     }
 
     public Values(double winnerFirst, double draw,
                   double winnerSecond, double winnerFirstOrDraw,
                   double winnerFirstOrWinnerSecond, double drawOrWinnerSecond,
-                  double totalMore, double total, double totalLess) {
+                  double totalMore, double total, double totalLess, String betsName) {
+        this();
         this.winnerFirst = winnerFirst;
         this.draw = draw;
         this.winnerSecond = winnerSecond;
@@ -42,6 +44,7 @@ public class Values {
         this.totalMore = totalMore;
         this.total = total;
         this.totalLess = totalLess;
+        this.betsName = betsName;
     }
 
     @CreatedDate
@@ -88,6 +91,14 @@ public class Values {
 
     public void setWinnerFirstOrWinnerSecond(double winnerFirstOrWinnerSecond) {
         this.winnerFirstOrWinnerSecond = winnerFirstOrWinnerSecond;
+    }
+
+    public String getBetsName() {
+        return betsName;
+    }
+
+    public void setBetsName(String betsName) {
+        this.betsName = betsName;
     }
 
     public double getDrawOrWinnerSecond() {
@@ -137,4 +148,14 @@ public class Values {
     public void setLastUpdated(Date lastUpdated) {
         LastUpdated = lastUpdated;
     }
+
+    public Games getGame() {
+        return game;
+    }
+
+    public void setGame(Games games) {
+        this.game = games;
+    }
+
+
 }
