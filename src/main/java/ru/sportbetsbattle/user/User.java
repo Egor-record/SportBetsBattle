@@ -1,6 +1,6 @@
 package ru.sportbetsbattle.user;
 
-
+/*
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ public class User extends BaseEntity {
     private String password;
 
     @JsonIgnore
-    private String[] roles;
+    private String role;
 
     public void setPassword(String password) {
         this.password = PASSWORD_ENCODER.encode(password);
@@ -55,3 +55,4 @@ public class User extends BaseEntity {
 
 
 }
+*/
