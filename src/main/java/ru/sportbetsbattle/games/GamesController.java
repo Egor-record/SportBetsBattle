@@ -6,17 +6,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.sportbetsbattle.scores.Scores;
 
-import javax.validation.Valid;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/v1/parse")
+@RequestMapping("/api/v1/games")
 public class GamesController {
 
 
@@ -29,6 +26,8 @@ public class GamesController {
 
     @PostMapping("/update")
     public HttpStatus updateGame(@RequestBody String jsonStr) throws ParseException {
+
+        System.out.println(jsonStr);
 
         sortRequest(jsonStr);
 
@@ -52,14 +51,20 @@ public class GamesController {
 
             JSONObject jsonObj = (JSONObject) o;
 
-            System.out.println(jsonObj.get("team_first"));
-            System.out.println(jsonObj.get("team_second"));
-            System.out.println(jsonObj.get("score_first"));
-            System.out.println(jsonObj.get("score_second"));
+            String teamFirst = jsonObj.get("teamFirst").toString();
+            String teamSecond = jsonObj.get("teamSecond").toString();
+            String betName = jsonObj.get("betName").toString();
+            int scoreFirstTeam = Integer.parseInt( jsonObj.get("scoreFirstTeam").toString() );
+            int scoreSecondTeam = Integer.parseInt( jsonObj.get("scoreSecondTeam").toString() );
 
-            if (!jsonObj.get("team_second").toString().equals("") && !jsonObj.get("team_first").toString().equals("")) {
+            System.out.println(teamFirst);
+            System.out.println(teamSecond);
+            System.out.println(scoreFirstTeam);
+            System.out.println(scoreSecondTeam);
 
-               Games game = gamesRepository.findByTeamFirstAndTeamSecond(jsonObj.get("team_first").toString(), jsonObj.get("team_second").toString());
+            if (!teamFirst.equals("") && !teamSecond.equals("")) {
+
+               Games game = gamesRepository.findByTeamFirstAndTeamSecond(teamFirst, teamSecond);
 
                 if (game != null) {
 
@@ -68,17 +73,17 @@ public class GamesController {
 
                 } else {
 
-                    Games games = new Games("Football", "Чемпионат Испании. Примера", (String) jsonObj.get("team_first"), (String) jsonObj.get("team_second"), new Date(), new Date() );
+                    Games games = new Games("Football",
+                            "Чемпионат Испании. Примера",
+                            teamFirst, teamSecond,
+                            new Date(),
+                            new Date(),
+                            scoreFirstTeam,
+                            scoreSecondTeam );
+                    games.addValue(new Scores(scoreFirstTeam, scoreSecondTeam, betName));
                     gamesRepository.save(games);
                 }
 
-//                gamesRepository.findByTeamFirstAndTeamSecond(jsonObj.get("team_first").toString(), jsonObj.get("team_second").toString()).forEach(bauer -> {
-//
-//                    System.out.println(bauer.getTeamSecond());
-//
-//
-//
-//                });
 
             }
 

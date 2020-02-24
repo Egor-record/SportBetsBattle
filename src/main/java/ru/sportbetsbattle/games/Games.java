@@ -1,14 +1,10 @@
 package ru.sportbetsbattle.games;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.sportbetsbattle.core.BaseEntity;
-import ru.sportbetsbattle.values.Values;
+import ru.sportbetsbattle.scores.Scores;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,8 +27,12 @@ public class Games extends BaseEntity {
     @NotNull
     private String teamSecond;
 
+    private int scoreTeamFirst;
+
+    private int scoreTeamSecond;
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-    private List<Values> values;
+    private List<Scores> values;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,7 +51,14 @@ public class Games extends BaseEntity {
 
 
 
-    public Games(String nameOfTheGame, String league, String teamFirst, String teamSecond, Date createdAt, Date lastUpdated) {
+    public Games(String nameOfTheGame,
+                 String league,
+                 String teamFirst,
+                 String teamSecond,
+                 Date createdAt,
+                 Date lastUpdated,
+                 int scoreTeamFirst,
+                 int scoreTeamSecond) {
         this();
         this.nameOfTheGame = nameOfTheGame;
         this.league = league;
@@ -59,13 +66,15 @@ public class Games extends BaseEntity {
         this.teamSecond = teamSecond;
         this.CreatedAt = createdAt;
         this.LastUpdated = lastUpdated;
+        this.scoreTeamFirst = scoreTeamFirst;
+        this.scoreTeamSecond = scoreTeamSecond;
     }
 
-    public List<Values> getValues() {
+    public List<Scores> getValues() {
         return values;
     }
 
-    private void addValue(Values value) {
+    public void addValue(Scores value) {
         value.setGame(this);
         values.add(value);
     }
@@ -102,7 +111,7 @@ public class Games extends BaseEntity {
         this.teamSecond = teamSecond;
     }
 
-    public void setValues(List<Values> values) {
+    public void setValues(List<Scores> values) {
         this.values = values;
     }
 
@@ -120,5 +129,21 @@ public class Games extends BaseEntity {
 
     public void setLastUpdated(Date lastUpdated) {
         LastUpdated = lastUpdated;
+    }
+
+    public int getScoreTeamFirst() {
+        return scoreTeamFirst;
+    }
+
+    public void setScoreTeamFirst(int scoreTeamFirst) {
+        this.scoreTeamFirst = scoreTeamFirst;
+    }
+
+    public int getScoreTeamSecond() {
+        return scoreTeamSecond;
+    }
+
+    public void setScoreTeamSecond(int scoreTeamSecond) {
+        this.scoreTeamSecond = scoreTeamSecond;
     }
 }
