@@ -6,6 +6,18 @@ import ru.sportbetsbattle.games.Games;
 
 import javax.persistence.*;
 
+/**
+ * Scores of each game;
+ * Separate table so that to let make diagrams of score history
+ *
+ * @since 1.1
+ * @version 1.1
+ * {@value} teamFirst : Int - Score of the first team
+ * {@value} teamSecond : Int - Score of the second team
+ * {@value} betName : String - Name of the booker (1xbet)
+ * {@value} game : Game - Name of the game this scores belongs
+ */
+
 @Entity
 public class Scores extends BaseEntity {
 

@@ -13,6 +13,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *
+ * Class which describes each sport event, no matter what kind of sport. Each field is field in data base
+ *
+ * @since 1.1
+ * @version 1.1
+ *
+ * {@value} nameOfTheGame - String: Not null; For example Football, Hockey, Tennis
+ * {@value} league - String: Not null; FIFA, Wimbledon
+ * {@value} teamFirst - String: Not null; First team of this game
+ * {@value} teamSecond - String: Not null; Second team of this game
+ * {@value} scoreTeamFirst - String: Score of the first team
+ * {@value} scoreTeamSecond - String: Score of the second team
+ * {@value} List<Scores> values - List of scores of THIS game; Each 10 second will update
+ * {@value} CreatedAt - Date - When the match started;
+ * {@value} LastUpdated - Date - Last update of the game;
+ *
+ */
+
 @JsonIgnoreProperties(value = {"CreatedAt", "LastUpdated"},allowGetters = true)
 @Entity
 public class Games extends BaseEntity {
